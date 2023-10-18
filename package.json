@@ -1,7 +1,7 @@
 {
 	"name": "embed-wp-playground",
 	"version": "0.1.0",
-	"description": "Embed the WordPress Playground in a block.",
+	"description": "Embed the WordPress Playground via the block editor.",
 	"author": "Stranger Studios",
 	"license": "GPL-2.0-or-later",
 	"main": "build/index.js",

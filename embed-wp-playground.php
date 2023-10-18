@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name:       Embed WP Playground
- * Description:       Embed the WordPress Playground using using the block editor.
+ * Description:       Embed the WordPress Playground via the block editor.
  * Version:           0.1.0
  * Author:            Stranger Studios
  * Author URI:        https://strangerstudios.com
