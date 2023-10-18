@@ -48,7 +48,7 @@ $iframe_id = 'embed-wp-playground-' . wp_generate_uuid4();
 				php: '<?php echo esc_html( empty( $preferred_versions['php'] ) ? 'latest' : $preferred_versions['php'] ); ?>',
 				wp: '<?php echo esc_html( empty( $preferred_versions['wp'] ) ? 'latest' : $preferred_versions['wp'] ); ?>',
 			},
-			steps: <?php echo json_encode( $modified_steps ); ?>,
+			steps: <?php echo wp_json_encode( $modified_steps ); ?>,
 		},
 	});
 
