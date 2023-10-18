@@ -1,0 +1,42 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "strangerstudios/embed-wp-playground",
+	"version": "0.1.0",
+	"title": "WordPress Playground",
+	"category": "embed",
+	"icon": "wordpress",
+	"description": "Embed the WordPress Playground via the block editor.",
+	"example": {},
+	"attributes": {
+		"landingPage": {
+			"type": "string",
+			"default": "/wp-admin/"
+		},
+		"preferredVersions": {
+			"type": "object",
+			"default": {
+				"php": "8.0",
+				"wp": "latest"
+			}
+		},
+		"steps": {
+			"type": "array",
+			"default": [
+				{
+					"step": "login",
+					"username": "admin",
+					"password": "password"
+				}
+			]
+		}
+	},
+	"supports": {
+		"html": false
+	},
+	"textdomain": "embed-wp-playground",
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./index.css",
+	"style": "file:./style-index.css",
+	"render": "file:./render.php"
+}
