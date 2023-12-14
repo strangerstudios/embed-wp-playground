@@ -34,23 +34,32 @@ foreach ( $attributes['steps'] as $index => $step ) {
 // Create a unique ID for the iframe.
 $iframe_id = 'embed-wp-playground-' . wp_generate_uuid4();
 
+// Render the iframe.
 ?>
 <iframe id="<?php echo esc_attr( $iframe_id ); ?>" class="embed-wp-playground-iframe"></iframe>
-<script type="module">
-	import { startPlaygroundWeb } from 'https://unpkg.com/@wp-playground/client/index.js';
+<?php
 
-	const client = await startPlaygroundWeb({
-		iframe: document.getElementById('<?php echo esc_attr( $iframe_id ); ?>'),
-		remoteUrl: `https://playground.wordpress.net/remote.html`,
-		blueprint: {
-			landingPage: '<?php echo esc_html( $attributes['landingPage'] ); ?>',
-			preferredVersions: {
-				php: '<?php echo esc_html( empty( $preferred_versions['php'] ) ? 'latest' : $preferred_versions['php'] ); ?>',
-				wp: '<?php echo esc_html( empty( $preferred_versions['wp'] ) ? 'latest' : $preferred_versions['wp'] ); ?>',
-			},
-			steps: <?php echo wp_json_encode( $modified_steps ); ?>,
-		},
-	});
+// Enqueue embedwpplayground.js.
+wp_enqueue_script(
+	'embedwpplayground',
+	plugins_url( 'js/embedwpplayground.js', EMBEDWPPLAYGROUND_BASE_FILE ),
+	array(),
+	EMBEDWPPLAYGROUND_VERSION,
+	true
+);
 
-	client.run();
-</script>
+// Pass the setup data for this playground to embedwpplayground.js.
+wp_add_inline_script(
+	'embedwpplayground',
+	sprintf(
+		'if ( typeof embedwpplayground_setups === "undefined" || embedwpplayground_setups === null ) { var embedwpplayground_setups = {}; } embedwpplayground_setups["%s"] = %s;',
+		esc_attr( $iframe_id ),
+		wp_json_encode( array(
+			'landingPage' => esc_html( $attributes['landingPage'] ),
+			'phpVersion' => esc_html( empty( $preferred_versions['php'] ) ? 'latest' : $preferred_versions['php'] ),
+			'wpVersion' => esc_html( empty( $preferred_versions['wp'] ) ? 'latest' : $preferred_versions['wp'] ),
+			'steps' => $modified_steps,
+		) )
+	),
+	'before'
+);

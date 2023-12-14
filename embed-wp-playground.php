@@ -11,14 +11,31 @@
  * Domain Path:       /languages
  */
 
+define( 'EMBEDWPPLAYGROUND_VERSION', '0.1.0' );
+define( 'EMBEDWPPLAYGROUND_BASE_FILE', __FILE__ );
+
 /**
  * Registers the block using the metadata loaded from the `block.json` file.
  * Behind the scenes, it registers also all assets so they can be enqueued
  * through the block editor in the corresponding context.
  *
- * @see https://developer.wordpress.org/reference/functions/register_block_type/
+ * @since 1.0
  */
 function embedwpplayground_block_init() {
 	register_block_type( __DIR__ . '/build' );
 }
 add_action( 'init', 'embedwpplayground_block_init' );
+
+/**
+ * Make embedwpplayground.js a module.
+ *
+ * @since 1.0
+ */
+function embedwpplayground_js_add_type_attribute( $tag, $handle ) {
+	if ( 'embedwpplayground' !== $handle ) {
+		return $tag;
+	}
+
+	return str_replace( ' src', ' type="module" src', $tag );
+}
+add_filter( 'script_loader_tag', 'embedwpplayground_js_add_type_attribute', 10, 2 );
